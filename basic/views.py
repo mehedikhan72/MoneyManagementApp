@@ -37,11 +37,16 @@ def add_record(request):
 
 def index(request):
     finance = None
+    daily_income = None
     if request.user.is_authenticated:
         if Finance.objects.filter(user = request.user):
             finance = Finance.objects.get(user=request.user)
+
+            daily_income = finance.income / finance.income_cycle
+
     return render(request, "basic/index.html",{
-        "finance": finance
+        "finance": finance,
+        "daily_income" : daily_income,
     })
 
 def login_view(request):
