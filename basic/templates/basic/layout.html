@@ -20,6 +20,16 @@
     </head>
     <body>
         <div>
+            <h1>Money Manager!</h1>
+
+            {% if request.user.is_authenticated %}
+                <h3>Hello, {{ request.user }}</h3>
+                <a href="{% url 'index' %}">Home</a>
+                <a href="{% url 'logout' %}">Log-out</a>
+            {% else %}
+                <a href="{% url 'login' %}">Log-in</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
             {% block body %}
             {% endblock %}
         </div>

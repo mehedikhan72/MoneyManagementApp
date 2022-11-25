@@ -2,14 +2,40 @@
 
 {% block body %}
 
-    <h1>Money Manager!</h1>
+    {% if user.is_authenticated %}
+        <div class="container">
 
-    {% if request.user.is_authenticated %}
-        <h3>Hello, {{ request.user }}</h3>
-        <a href="{% url 'index' %}">Home</a>
-        <a href="{% url 'logout' %}">Log-out</a>
-    {% else %}
-        <a href="{% url 'login' %}">Log-in</a>
-        <a href="{% url 'register' %}">Register</a>
+            
+            {% if finance %}
+            <div class="container">
+
+                <h1>Change your finance</h1>
+                <p>Your income for {{finance.income_cycle}} days is {{finance.income}}</p>
+                <p>Your saving goal for {{finance.goal}} days is {{finance.saving_goal}}</p>
+                <p>Your daily income is {{daily_income}}</p>
+                <p>Your Current Balance is {{finance.balance}}</p>
+    
+            </div>
+            {% else %}
+
+            <h1 class="display-4">Help us to create your first financial document</h1>
+            <form action="{% url 'add_record' %}" method="post" class="form-control">
+                {% csrf_token %}
+                <input type="number" name="income" class="form-control" placeholder="Income">
+                <input type="number" name="cycle" class="form-control" placeholder="Income period">
+                <input type="number" name="balance" class="form-control" placeholder="Current Balance">
+                <input type="number" name="saving" class="form-control" placeholder="Saving Goal">
+                <input type="number" name="goal" class="form-control" placeholder="For how many days do you want to set your goal?">
+                <input type="number" name="estimate" class="form-control" placeholder="Give Us a rough estimate of your daily cost">
+                <input type="submit" class="btn btn-outline-primary">
+
+            </form>
+
+
+        {% endif %}
+    </div>
+
     {% endif %}
+
+
 {% endblock %}
