@@ -10,9 +10,6 @@ from .models import User, Finance, DailyExpenditure, Category
 
 # Create your views here.
 
-
-
-
 @login_required
 def add_record(request):
     income = request.POST.get("income", None)
@@ -37,10 +34,6 @@ def add_record(request):
     
 
     return HttpResponseRedirect(reverse("index"))
-
-    
-
-
 
 def index(request):
     finance = None
