@@ -38,12 +38,8 @@ def add_record(request):
 def index(request):
     finance = None
     if request.user.is_authenticated:
-        print("no")
         if Finance.objects.filter(user = request.user):
             finance = Finance.objects.get(user=request.user)
-
-            print("yes")
-    print(finance)
     return render(request, "basic/index.html",{
         "finance": finance
     })
