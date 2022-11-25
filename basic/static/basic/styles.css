@@ -1,0 +1,13 @@
+.expenditure_div{
+    display: none;
+}
+
+.close_btn{
+    margin: 20px;
+}
+
+.expenditure_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

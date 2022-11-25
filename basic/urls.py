@@ -7,4 +7,6 @@ urlpatterns = [
     path("login", views.login_view, name="login"),
     path("logout" , views.logout_view, name="logout"),
     path("add_record", views.add_record, name="add_record"),
+    path("add_expenditure", views.add_expenditure, name="add_expenditure"),
+    path("remove_expenditure/<int:expenditure_id>", views.remove_expenditure, name="remove_expenditure"),
 ]
