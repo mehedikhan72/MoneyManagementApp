@@ -87,13 +87,36 @@
 
             </form>
 
-            
-
-
         {% endif %}
+        <br>
+        <!-- api form -->
+        <button class="btn btn-outline-primary" id="get-api-data-btn">Get Api Data</button>
+        <br>
+        <br>
+        <label for="exchange-from">From: </label>
+        <select id="exchange_from" name="exchange-from" style="width: 182px; border-radius: 3px;" required>
+            <option value="BDT">BDT</option>
+            <option value="USD" selected>USD</option>
+            <option value="ARS">ARS</option>
+            <option value="ADA">ADA</option>
+        </select>
+
+        <label for="exchange-to">To: </label>
+        <select id="exchange_to" name="exchange-to" style="width: 182px; border-radius: 3px;" required>
+            <option value="BDT">BDT</option>
+            <option value="USD" selected>USD</option>
+            <option value="ARS">ARS</option>
+            <option value="ADA">ADA</option>
+        </select>
+        <div id="exchange-info">
+
+        </div>
+        <br>
+        <br>
+        <br>
+
     </div>
 
     {% endif %}
-
-
+    
 {% endblock %}
