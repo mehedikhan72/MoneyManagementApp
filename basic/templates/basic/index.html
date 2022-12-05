@@ -1,4 +1,5 @@
 {% extends "basic/layout.html" %}
+{% load static %}
 
 {% block body %}
 
@@ -14,7 +15,62 @@
                 <p>Your saving goal for {{finance.goal}} days is {{finance.saving_goal}}</p>
                 <p>Your daily income is {{daily_income}}</p>
                 <p>Your Current Balance is {{finance.balance}}</p>
+                <p class="daily_expn">Your today's expenditure is {{finance.daily_expenditure}}</p>
+                <p class="total_expenditure">Your Total Expenditure is {{finance.total_expenditure}}</p>
     
+            </div>
+
+            <h1>Daily Expenditure List !</h1>
+
+            <!--This is the expenditure list-->
+            <div class="expenditure_list container">
+                {% for expenditure in expenditures %}
+                    <div class="expenditure_item" id="expenditure_item_{{expenditure.id}}">
+                        <p>You have spent {{ expenditure.cost }}$ on this {{ expenditure.stuff }} which belongs in the {{expenditure.category.name}} category</p>
+                        <button onclick="remove_item(this)" data-id = "{{expenditure.id}}" class="btn btn-outline-danger">Remove this Expenditure</button>
+                    </div>
+                    <hr style="background-color:black" id="expenditure_hr_{{expenditure.id}}">
+                {% endfor %}
+            </div>
+            <!--Expenditure list ends-->
+
+            <!-- This is the expenditure form -->
+            <div class="expenditure_div">
+                <form action="{% url 'add_expenditure' %}" method="post" >
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-5" >
+                            <input name="stuff" placeholder="Name of the Stuff" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input name="cost" placeholder="Cost" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-3" >
+                            <select class="form-control" name="category">
+                                <option selected disabled>Choose a category</option>
+                                {% for category in categories %}
+            
+                                        <option value="{{ category.id }}">{{ category.name }}</option>
+                                    
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input type="submit" class="btn btn-outline-primary">
+                        </div>
+                    </div>
+                </form>
+                <div class="container close_btn">
+                    <button onclick="expenditure_list_close(this)" class="btn btn-outline-danger">
+                        Close
+                    </button>
+                </div>
+            </div>
+            
+            <div class="container">
+                <button onclick="expenditure_list_show(this)" class="btn btn-outline-primary">
+                    Add an Expenditure
+                </button>
             </div>
             {% else %}
 
@@ -31,11 +87,36 @@
 
             </form>
 
-
         {% endif %}
+        <br>
+        <!-- api form -->
+        <button class="btn btn-outline-primary" id="get-api-data-btn">Get Api Data</button>
+        <br>
+        <br>
+        <label for="exchange-from">From: </label>
+        <select id="exchange_from" name="exchange-from" style="width: 182px; border-radius: 3px;" required>
+            <option value="BDT">BDT</option>
+            <option value="USD" selected>USD</option>
+            <option value="ARS">ARS</option>
+            <option value="ADA">ADA</option>
+        </select>
+
+        <label for="exchange-to">To: </label>
+        <select id="exchange_to" name="exchange-to" style="width: 182px; border-radius: 3px;" required>
+            <option value="BDT">BDT</option>
+            <option value="USD" selected>USD</option>
+            <option value="ARS">ARS</option>
+            <option value="ADA">ADA</option>
+        </select>
+        <div id="exchange-info">
+
+        </div>
+        <br>
+        <br>
+        <br>
+
     </div>
 
     {% endif %}
-
-
+    
 {% endblock %}
