@@ -49,6 +49,9 @@ def index(request):
         "daily_income" : daily_income,
     })
 
+def demo_calc(request):
+    return render(request, "basic/demo_calc.html")
+
 def login_view(request):
     logout(request)
     if request.method == "POST":
