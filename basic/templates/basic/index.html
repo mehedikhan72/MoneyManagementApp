@@ -9,14 +9,57 @@
             
             {% if finance %}
             <div class="container">
+                <div class="user_finance_info">
+                    <h1>Here is your finance</h1>
+                    <p>Your income for <span id="finance_income_cycle">{{finance.income_cycle}}</span> days is <span id="finance_income">{{finance.income}}</span></p>
+                    <p>Your saving goal for <span id="finance_goal">{{finance.goal}}</span> days is <span id="finance_saving_goal">{{finance.saving_goal}}</span></p>
+                    <p>Your daily income is {{daily_income}}</p>
+                    <p>Your Current Balance is <span id="finance_balance">{{finance.balance}}</span></p>
+                    <p class="daily_expn">Your today's expenditure is {{finance.daily_expenditure}}</p>
+                    <p class="total_expenditure">Your Total Expenditure is {{finance.total_expenditure}}</p>
+                    <button class="btn btn-outline-primary" onclick="change_finance(this)" data-id="{{finance.id}}">Edit Your finance</button>
+                </div>
+                <div class="user_finance_change_form">
+                    <h1>Change Your finances!</h1>
+                    <div class="form-group">
+                        <label class="form-label">Income:</label>
+                        <input type="number" class="form-control" id="edit_form_income" placeholder="Change Your Income" value="{{finance.income}}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Change Your plans:</label>
+                        <div class="edit-form-buttons">
+                            <button type="button" class="btn btn-outline-primary income-buttons" data-num="1" onclick="set_income_period_edit(this)">Daily</button>
+                            <button type="button" class="btn btn-outline-primary income-buttons" data-num="7" onclick="set_income_period_edit(this)">Weekly</button>
+                            <button type="button" class="btn btn-outline-primary income-buttons" data-num="30" onclick="set_income_period_edit(this)">Monthly</button>
+                            <button type="button" class="btn btn-outline-primary income-buttons" data-num="365" onclick="set_income_period_edit(this)">Yearly</button>
+                            <button type="button" class="btn btn-outline-primary income-buttons" onclick="show_income_period_edit(this)">Custom</button>
+                        </div>
+                    </div>
 
-                <h1>Change your finance</h1>
-                <p>Your income for {{finance.income_cycle}} days is {{finance.income}}</p>
-                <p>Your saving goal for {{finance.goal}} days is {{finance.saving_goal}}</p>
-                <p>Your daily income is {{daily_income}}</p>
-                <p>Your Current Balance is {{finance.balance}}</p>
-                <p class="daily_expn">Your today's expenditure is {{finance.daily_expenditure}}</p>
-                <p class="total_expenditure">Your Total Expenditure is {{finance.total_expenditure}}</p>
+                    <div class="form-group income_period_div">
+                        <label class="form-label">Income Period:</label>
+                        <input type="number" placeholder="Income period" class="form-control" id="income_period_edit" value="{{finance.income_cycle}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Current Balance:</label>
+                        <input type="number" name="balance" id="edit_form_balance" class="form-control" placeholder="Current Balance" value="{{finance.balance}}">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Saving Goal:</label>
+                        <input type="number" name="saving" id="edit_form_saving" class="form-control" placeholder="Saving Goal" value="{{finance.saving_goal}}">
+                    </div>
+
+                    <div class="form-group income_period_div">
+                        <label class="form-label">Set your goals for a limited number for any number of days</label>
+                        <input type="number" name="goal" class="form-control" placeholder="set" id="saving_goal_edit" value="{{finance.goal}}">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-outline-primary" id="edit_submit_button" onclick="update_finance_info(this)" data-id="{{finance.id}}" >Submit</button>
+                    </div>
+
+                </div>
     
             </div>
 
@@ -72,51 +115,63 @@
                     Add an Expenditure
                 </button>
             </div>
+
+            <br>
+        <!-- api form -->
+            <button class="btn btn-outline-primary" id="get-api-data-btn">Get Api Data</button>
+            <br>
+            <br>
+            <label for="exchange-from">From: </label>
+            <select id="exchange_from" name="exchange-from" style="width: 182px; border-radius: 3px;" required>
+                <option value="BDT">BDT</option>
+                <option value="USD" selected>USD</option>
+                <option value="ARS">ARS</option>
+                <option value="ADA">ADA</option>
+            </select>
+
+            <label for="exchange-to">To: </label>
+            <select id="exchange_to" name="exchange-to" style="width: 182px; border-radius: 3px;" required>
+                <option value="BDT">BDT</option>
+                <option value="USD" selected>USD</option>
+                <option value="ARS">ARS</option>
+                <option value="ADA">ADA</option>
+            </select>
+            <div id="exchange-info">
+
+            </div>
+            <br>
+            <br>
+            <br>
+
+        </div>
+
             {% else %}
 
             <h1 class="display-4">Help us to create your first financial document</h1>
-            <form action="{% url 'add_record' %}" method="post" class="form-control">
+            <form action="{% url 'add_record' %}" method="post">
                 {% csrf_token %}
                 <input type="number" name="income" class="form-control" placeholder="Income">
-                <input type="number" name="cycle" class="form-control" placeholder="Income period">
+
+                <label class="form-label text-right">Select a plan:</label>
+                <div class="main-form-buttons">
+                    <button type="button" class="btn btn-outline-primary income-buttons" data-num="1" onclick="set_income_period(this)">Daily</button>
+                    <button type="button" class="btn btn-outline-primary income-buttons" data-num="7" onclick="set_income_period(this)">Weekly</button>
+                    <button type="button" class="btn btn-outline-primary income-buttons" data-num="30" onclick="set_income_period(this)">Monthly</button>
+                    <button type="button" class="btn btn-outline-primary income-buttons" data-num="365" onclick="set_income_period(this)">Yearly</button>
+                    <button type="button" class="btn btn-outline-primary income-buttons" onclick="show_income_period(this)">Custom</button>
+                </div>
+                <input type="number" name="cycle" class="form-control" placeholder="Income period" id="income-period">
+
                 <input type="number" name="balance" class="form-control" placeholder="Current Balance">
-                <input type="number" name="saving" class="form-control" placeholder="Saving Goal">
-                <input type="number" name="goal" class="form-control" placeholder="For how many days do you want to set your goal?">
+                <input type="number" name="saving" class="form-control" placeholder="Saving Goal" >
+                <input type="number" name="goal" class="form-control" placeholder="For how many days do you want to set your goal?" id="saving_goal">
                 <input type="number" name="estimate" class="form-control" placeholder="Give Us a rough estimate of your daily cost">
                 <input type="submit" class="btn btn-outline-primary">
 
             </form>
 
         {% endif %}
-        <br>
-        <!-- api form -->
-        <button class="btn btn-outline-primary" id="get-api-data-btn">Get Api Data</button>
-        <br>
-        <br>
-        <label for="exchange-from">From: </label>
-        <select id="exchange_from" name="exchange-from" style="width: 182px; border-radius: 3px;" required>
-            <option value="BDT">BDT</option>
-            <option value="USD" selected>USD</option>
-            <option value="ARS">ARS</option>
-            <option value="ADA">ADA</option>
-        </select>
-
-        <label for="exchange-to">To: </label>
-        <select id="exchange_to" name="exchange-to" style="width: 182px; border-radius: 3px;" required>
-            <option value="BDT">BDT</option>
-            <option value="USD" selected>USD</option>
-            <option value="ARS">ARS</option>
-            <option value="ADA">ADA</option>
-        </select>
-        <div id="exchange-info">
-
-        </div>
-        <br>
-        <br>
-        <br>
-
-    </div>
-
+        
     {% endif %}
     
 {% endblock %}

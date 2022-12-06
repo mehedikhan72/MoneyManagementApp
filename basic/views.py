@@ -15,6 +15,21 @@ import calendar, datetime, pytz
 # Create your views here.
 
 
+
+@csrf_exempt
+@login_required
+def update_finance(request, finance_id):
+    finance = Finance.objects.get(pk=finance_id)
+    data = json.loads(request.body)
+    finance.income = data.get("income", "")
+    finance.income_cycle = data.get("income_period", "")
+    finance.saving_goal = data.get("saving_goal", "")
+    finance.balance = data.get("balance", "")
+    finance.goal = data.get("saving_period", "")
+    finance.save()
+    return JsonResponse(finance.serialize())
+
+
 @csrf_exempt
 @login_required
 def remove_expenditure(request, expenditure_id):

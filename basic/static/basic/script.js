@@ -192,3 +192,124 @@ function exchange_rates() {
 
 }
 
+
+function show_income_period(x){
+  const income_period = document.querySelector("#income-period");
+  const saving_goal = document.querySelector("#saving_goal");
+  if (income_period.style.display === "none"){
+    income_period.style.display = "block";
+    saving_goal.style.display = "block"
+    document.querySelectorAll(".income-buttons").forEach((button) => {
+      button.style.background = "none";
+    })
+    x.style.background = "red";
+    x.innerHTML = "Close";
+  }
+  else {
+    income_period.style.display = "none";
+    saving_goal.style.display = "none"
+    document.querySelectorAll(".income-buttons").forEach((button) => {
+      button.style.background = "none";
+    })
+    x.style.background = "none";
+    x.innerHTML = "Custom";
+  }
+  
+}
+
+function set_income_period(x){
+
+  let num = x.dataset.num;
+  const income_period = document.querySelector("#income-period");
+  const saving_goal = document.querySelector("#saving_goal");
+  income_period.value = num;
+  saving_goal.value = num;
+  document.querySelectorAll(".income-buttons").forEach((button) => {
+    button.style.background = "none";
+  })
+  x.style.background = "blue";
+}
+
+function set_income_period_edit(x){
+  let num = x.dataset.num;
+  const income_period = document.querySelector("#income_period_edit");
+  const saving_goal = document.querySelector("#saving_goal_edit");
+  income_period.value = num;
+  saving_goal.value = num;
+  document.querySelectorAll(".income-buttons").forEach((button) => {
+    button.style.background = "none";
+  })
+  x.style.background = "blue";
+}
+
+function show_income_period_edit(x){
+  const income_period_div = document.querySelector(".income_period_div")
+  if (income_period_div.style.display !== "block"){
+    document.querySelectorAll(".income_period_div").forEach((div) => {
+      div.style.display = "block";
+    });
+
+    document.querySelectorAll(".income-buttons").forEach((button) => {
+      button.style.background = "none";
+    });
+
+    x.style.background = "red";
+    x.innerHTML = "Close";
+  }
+  else {
+    document.querySelectorAll(".income_period_div").forEach((div) => {
+      div.style.display = "none";
+    });
+    document.querySelectorAll(".income-buttons").forEach((button) => {
+      button.style.background = "none";
+    });
+    x.style.background = "none";
+    x.innerHTML = "Custom";
+  }
+}
+
+
+function change_finance(x){
+  document.querySelector(".user_finance_info").style.display = "none";
+  document.querySelector(".user_finance_change_form").style.display = "block";
+}
+
+
+function update_finance_info(x){
+  document.querySelector(".user_finance_change_form").style.display = "none";
+  let income = document.querySelector("#edit_form_income").value;
+  let income_period = document.querySelector("#income_period_edit").value;
+  let balance = document.querySelector("#edit_form_balance").value;
+  let saving_goal = document.querySelector("#edit_form_saving").value;
+  let saving_period = document.querySelector("#saving_goal_edit").value;
+  let income_div = document.querySelector("#finance_income");
+  let income_period_div = document.querySelector("#finance_income_cycle");
+  let balance_div = document.querySelector("#finance_balance");
+  let saving_goal_div = document.querySelector("#finance_saving_goal");
+  let saving_period_div = document.querySelector("#finance_goal");
+  id = x.dataset.id;
+  fetch(`/update/${id}`,{
+    method: 'POST',
+    body: JSON.stringify({
+      income: income,
+      income_period: income_period,
+      balance: balance,
+      saving_goal: saving_goal,
+      saving_period: saving_period,
+    })
+    
+  })
+  .then((response) => response.json())
+  .then(finance => {
+    income_div.innerHTML = finance.income;
+    income_period_div.innerHTML = finance.income_period;
+    balance_div.innerHTML = finance.balance;
+    saving_goal_div.innerHTML = finance.saving_goal;
+    saving_period_div = finance.goal;
+    document.querySelector(".user_finance_info").style.display = "block";
+  })
+
+  
+  
+}
+

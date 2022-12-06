@@ -72,3 +72,30 @@
     justify-content: space-between;
     align-items: center;
 }
+
+
+.main-form-buttons {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.income-buttons{
+  margin: 10px 50px !important;
+}
+
+#income-period{
+  display:none;
+}
+
+#saving_goal{
+  display:none;
+}
+
+.user_finance_change_form{
+  display:none;
+}
+
+.income_period_div {
+  display:none;
+}

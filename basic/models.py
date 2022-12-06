@@ -10,15 +10,15 @@ class User(AbstractUser):
 
 class Finance(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
-    income = models.DecimalField(max_digits=8, decimal_places=2)
+    income = models.DecimalField(max_digits=15, decimal_places=2)
     income_cycle = models.IntegerField(default=30)
-    balance = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    saving_goal = models.DecimalField(max_digits=8, decimal_places = 2, default=0)
+    balance = models.DecimalField(max_digits=15, decimal_places=2, default=0)
+    saving_goal = models.DecimalField(max_digits=15, decimal_places = 2, default=0)
     goal = models.IntegerField(default=30)
-    daily_cost_estimate = models.DecimalField(max_digits = 6, decimal_places=2, default=0)
-    daily_expenditure = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    total_expenditure = models.DecimalField(max_digits = 8, decimal_places=2, default=0)
-    add_money = models.DecimalField(max_digits = 8, decimal_places = 2, default = 0)
+    daily_cost_estimate = models.DecimalField(max_digits = 15, decimal_places=2, default=0)
+    daily_expenditure = models.DecimalField(max_digits=15, decimal_places=2, default=0)
+    total_expenditure = models.DecimalField(max_digits = 15, decimal_places=2, default=0)
+    add_money = models.DecimalField(max_digits = 15, decimal_places = 2, default = 0)
     
     def __str__(self):
         return f"{self.income} {self.balance} {self.goal} {self.total_expenditure}"
@@ -26,6 +26,11 @@ class Finance(models.Model):
     def serialize(self):
         return {
             "id" : self.id,
+            "income" : self.income,
+            "income_period" : self.income_cycle,
+            "balance" : self.balance,
+            "saving_goal": self.saving_goal,
+            "goal" : self.goal,
             "total_expenditure" : self.total_expenditure,
             "daily_expenditure" : self.daily_expenditure
         }
